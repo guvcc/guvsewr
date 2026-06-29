@@ -1,16 +1,24 @@
 ﻿using System.Reflection;
 using System.Text.RegularExpressions;
 
+
 class Program
 {
     static void Main(string[] args)
     {
         Console.Title = Config.root.distro_settings.name;
-        
-        var commands = Assembly.GetExecutingAssembly()
-        .GetTypes()
-        .Where(t => t.IsSubclassOf(typeof(Command)) && !t.IsAbstract);                                                                                                                                                   
-        
+
+        var allAssemblies = new List<Assembly>
+        {
+            Assembly.GetExecutingAssembly()
+        };
+
+        allAssemblies.AddRange(CompileScripts.asms);
+
+        var commands = allAssemblies
+        .SelectMany(asm => asm.GetTypes())
+        .Where(t => t.IsSubclassOf(typeof(Command)) && !t.IsAbstract);
+
         foreach (string sentence in Config.root.introduction_sentences)
         {
             Console.WriteLine(sentence);

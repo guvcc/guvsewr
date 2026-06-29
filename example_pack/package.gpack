@@ -1,12 +1,12 @@
 #Name spaces allowed!
-name=example;
+name=example
 #Version!
-version=1.0.0;
+version=1.0.0
 #Needs to be C#!
-main=main.cs;
+main=main.cs
 #Must be json!
-config=config.json;
+config=config.json
 #Lists extra files
-extrafiles=extra.txt;
+extrafiles=extra.txt
 #Github main tree link!
-maintree=
+maintree=https://github.com/guvcc/guvsewr/tree/main/example_pack
