@@ -16,7 +16,7 @@ public class PackageCommand : Command
 
             if (cmd.args[0] == "install")
             {
-                Package.InstallFromGit(cmd.args[1]);
+                await Package.InstallFromGit(cmd.args[1]);
 
                 Console.WriteLine("Installed! Restart to show effects!");
             }else if (cmd.args[0] == "list")
@@ -24,7 +24,11 @@ public class PackageCommand : Command
                 string dir = Path.Combine(Directory.GetCurrentDirectory(), "packages");
 
                 if (!Directory.Exists(dir))
+                {
                     Console.WriteLine("None!");
+                    return;
+                }
+                    
                 
                 foreach (string subdir in Directory.GetDirectories(dir))
                 {

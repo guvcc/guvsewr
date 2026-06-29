@@ -4,7 +4,7 @@ using System.Reflection;
 
 public class CompileScripts
 {
-    public static List<Assembly> asms;
+    public static List<Assembly> asms = new List<Assembly>();
     public static Assembly Compile(string path)
     {
         var code = File.ReadAllText(path);

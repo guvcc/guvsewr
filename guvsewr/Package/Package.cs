@@ -14,7 +14,7 @@ public class Package
         this.extraPaths = extraPaths;
     }
 
-    public static async void InstallFromGit(string url)
+    public static async Task InstallFromGit(string url)
     {
         HttpClient client = new HttpClient();
 
@@ -43,7 +43,10 @@ public class Package
 
             Console.WriteLine("Installing Gpack...");
 
-            string mainTree = pack.mainTree.Replace("https://github.com/", "https://raw.githubusercontent.com/");
+            string mainTree = pack.mainTree.Replace("https://github.com/", "https://raw.githubusercontent.com/").Replace("/tree/", "/");
+            if (!mainTree.EndsWith("/"))
+                mainTree += "/";
+
             
             string packagegpack = await client.GetStringAsync(mainTree + "package.gpack");
 
@@ -59,13 +62,17 @@ public class Package
 
             Console.WriteLine("Done!");
 
-            Console.WriteLine("Installing config json...");
 
-            string config = await client.GetStringAsync(mainTree + pack.configPath);
+            if (!string.IsNullOrWhiteSpace(pack.configPath))
+            {
+                Console.WriteLine("Installing config json...");
 
-            File.WriteAllText(Path.Combine(directory, pack.configPath), config);
+                string config = await client.GetStringAsync(mainTree + pack.configPath);
 
-            Console.WriteLine("Done!");
+                File.WriteAllText(Path.Combine(directory, pack.configPath), config);
+
+                Console.WriteLine("Done!");
+            }
 
             Console.WriteLine("Installing extra files...");
 
