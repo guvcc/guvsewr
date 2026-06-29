@@ -16,7 +16,8 @@
       "empty_command": "Empty command!",
       "command_not_found": "Command not found!",
       "invalid_arguments": "Invalid arguments!",
-      "host_not_found": "Host not found!"
+      "host_not_found": "Host not found!",
+      "no_load_script": "Can't load script!"
     }
   },
 
