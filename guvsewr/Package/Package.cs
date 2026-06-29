@@ -20,13 +20,14 @@ public class Package
         string gpack;
         try
         {
-            gpack = await client.GetStringAsync(url);
+            gpack = await client.GetStringAsync("raw.githubusercontent.com");
         }
-        catch(HttpRequestException exception)
+        catch (HttpRequestException ex)
         {
             Console.WriteLine(Config.root.cli_settings.errors["host_not_found"]);
+            Console.WriteLine(ex.ToString());
             return;
-        }
+        }       
 
         Package pack = DeserealizeGPack(gpack);
 
@@ -41,11 +42,16 @@ public class Package
             Directory.CreateDirectory(directory);
 
             string mainTree = null;
+
+            url = url.Trim();
             
             if (url.EndsWith("package.gpack"))
             {
-                mainTree = url.Substring(0, url.Length - "package.gpack".Length);
+                mainTree = url.Substring(0, url.LastIndexOf("package.gpack"));
+                mainTree += "/";
             }
+
+            Console.Write(mainTree);
 
             if (mainTree == null)
                 return;
@@ -95,9 +101,10 @@ public class Package
 
             Console.WriteLine("Done!");
         }
-        catch(HttpRequestException exception)
+        catch (HttpRequestException ex)
         {
             Console.WriteLine(Config.root.cli_settings.errors["host_not_found"]);
+            Console.WriteLine(ex.ToString());
             return;
         }
     }
