@@ -1,0 +1,16 @@
+C:\Users\User\Documents\guvsewr\guvsewr\bin\Debug\net10.0\guvsewr.exe
+C:\Users\User\Documents\guvsewr\guvsewr\bin\Debug\net10.0\guvsewr.deps.json
+C:\Users\User\Documents\guvsewr\guvsewr\bin\Debug\net10.0\guvsewr.runtimeconfig.json
+C:\Users\User\Documents\guvsewr\guvsewr\bin\Debug\net10.0\guvsewr.dll
+C:\Users\User\Documents\guvsewr\guvsewr\bin\Debug\net10.0\guvsewr.pdb
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\guvsewr.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\guvsewr.AssemblyInfoInputs.cache
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\guvsewr.AssemblyInfo.cs
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\guvsewr.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\guvsewr.dll
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\refint\guvsewr.dll
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\guvsewr.pdb
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\guvsewr.genruntimeconfig.cache
+C:\Users\User\Documents\guvsewr\guvsewr\obj\Debug\net10.0\ref\guvsewr.dll
+C:\Users\User\Documents\guvsewr\guvsewr\bin\Debug\net10.0\conf\ascii_art.txt
+C:\Users\User\Documents\guvsewr\guvsewr\bin\Debug\net10.0\conf\config.json

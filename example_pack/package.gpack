@@ -1,0 +1,12 @@
+#Name spaces allowed!
+name=example;
+#Version!
+version=1.0.0;
+#Needs to be C#!
+main=main.cs;
+#Must be json!
+config=config.json;
+#Lists extra files
+extrafiles=extra.txt;
+#Github main tree link!
+maintree=

@@ -1,0 +1,29 @@
+{
+  "distro_settings": {
+    "name": "Guvsewr",
+    "version": "1.0.0",
+    "author": "guvcc",
+    "description": "Customizable barebones browser repository"
+  },
+
+  "introduction_sentences": ["Welcome to Guvsewr!", "@ascii_art"],
+
+  "cli_settings": {
+    "line_starter": ">",
+    "background_color": "black",
+    "foreground_color": "white",
+    "errors": {
+      "empty_command": "Empty command!",
+      "command_not_found": "Command not found!",
+      "invalid_arguments": "Invalid arguments!",
+      "host_not_found": "Host not found!"
+    }
+  },
+
+  "app_variables": [
+    {
+      "id": "@ascii_art",
+      "value": "@load_from_file:conf/ascii_art.txt"
+    }
+  ]
+}
