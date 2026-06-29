@@ -21,7 +21,5 @@ Contributions are always welcome!
 
 You can create packages for the project and contribute to the main project!
 
-See `contributing.md` for ways to get started.
-
 Please adhere to this project's `code of conduct`.
 
