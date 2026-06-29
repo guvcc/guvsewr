@@ -20,7 +20,7 @@ public class Package
         string gpack;
         try
         {
-            gpack = await client.GetStringAsync("raw.githubusercontent.com");
+            gpack = await client.GetStringAsync(url);
         }
         catch (HttpRequestException ex)
         {
@@ -41,24 +41,9 @@ public class Package
 
             Directory.CreateDirectory(directory);
 
-            string mainTree = null;
-
-            url = url.Trim();
-            
-            if (url.EndsWith("package.gpack"))
-            {
-                mainTree = url.Substring(0, url.LastIndexOf("package.gpack"));
-                mainTree += "/";
-            }
-
-            Console.Write(mainTree);
-
-            if (mainTree == null)
-                return;
-
             Console.WriteLine("Installing Gpack...");
 
-            string packagegpack = await client.GetStringAsync(mainTree + "package.gpack");
+            string packagegpack = await client.GetStringAsync(url);
 
             File.WriteAllText(Path.Combine(directory, "package.gpack"), packagegpack);
 
@@ -66,7 +51,7 @@ public class Package
 
             Console.WriteLine("Installing main class...");
 
-            string mainCS = await client.GetStringAsync(mainTree + pack.mainPath);
+            string mainCS = await client.GetStringAsync(pack.mainPath);
 
             File.WriteAllText(Path.Combine(directory, pack.mainPath), mainCS);
 
@@ -77,7 +62,7 @@ public class Package
             {
                 Console.WriteLine("Installing config json...");
 
-                string config = await client.GetStringAsync(mainTree + pack.configPath);
+                string config = await client.GetStringAsync(pack.configPath);
 
                 File.WriteAllText(Path.Combine(directory, pack.configPath), config);
 
@@ -88,7 +73,7 @@ public class Package
 
             foreach (string path in pack.extraPaths)
             {
-                string extra = await client.GetStringAsync(mainTree + path);
+                string extra = await client.GetStringAsync(path);
 
                 File.WriteAllText(Path.Combine(directory, path), extra);
             }

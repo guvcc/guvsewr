@@ -2,9 +2,9 @@
 name=example
 #Version!
 version=1.0.0
-#Needs to be C#!
-main=main.cs
-#Must be json!
-config=config.json
-#Lists extra files
-extrafiles=extra.txt
+#Needs to be C# with github raw link!
+main=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/Main.cs
+#Must be json with github raw link!
+config=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/config.json
+#Lists extra files with github raw link
+extrafiles=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/extra.txt
