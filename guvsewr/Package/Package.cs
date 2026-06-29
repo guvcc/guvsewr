@@ -1,6 +1,6 @@
 public class Package
 {
-    public string name, version, mainPath, mainTree;
+    public string name, version, mainPath;
     public string? configPath;
     public string[] extraPaths;
 
@@ -10,7 +10,6 @@ public class Package
         this.version = version;
         this.configPath = configPath;
         this.mainPath = mainPath;
-        this.mainTree = mainTree;
         this.extraPaths = extraPaths;
     }
 
@@ -41,13 +40,18 @@ public class Package
 
             Directory.CreateDirectory(directory);
 
+            string mainTree = null;
+            
+            if (url.EndsWith("package.gpack"))
+            {
+                mainTree = url.Substring(0, url.Length - "package.gpack".Length);
+            }
+
+            if (mainTree == null)
+                return;
+
             Console.WriteLine("Installing Gpack...");
 
-            string mainTree = pack.mainTree.Replace("https://github.com/", "https://raw.githubusercontent.com/").Replace("/tree/", "/");
-            if (!mainTree.EndsWith("/"))
-                mainTree += "/";
-
-            
             string packagegpack = await client.GetStringAsync(mainTree + "package.gpack");
 
             File.WriteAllText(Path.Combine(directory, "package.gpack"), packagegpack);
@@ -126,10 +130,6 @@ public class Package
             else if (line.StartsWith("extrafiles"))
             {
                 pack.extraPaths = line.Split("=")[1].Split(",").ToArray();
-            }
-            else if (line.StartsWith("maintree"))
-            {
-                pack.mainTree = line.Split("=")[1];
             }
         }
 

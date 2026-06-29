@@ -8,5 +8,3 @@ main=main.cs
 config=config.json
 #Lists extra files
 extrafiles=extra.txt
-#Github main tree link!
-maintree=https://github.com/guvcc/guvsewr/tree/main/example_pack

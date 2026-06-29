@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("guvsewr")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+180fb3844b42bc2fce2a40932e866e006d500f5b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+762d71ec07209942bccaedefe44ecc3c2bc9a5f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("guvsewr")]
 [assembly: System.Reflection.AssemblyTitleAttribute("guvsewr")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
