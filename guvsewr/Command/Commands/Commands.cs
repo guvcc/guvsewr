@@ -109,8 +109,6 @@ public static class Commands
             if (cmd.args[0] == "install")
             {
                 await Package.InstallFromGit(cmd.args[1]);
-
-                Console.WriteLine("Installed! Restart to show effects!");
             }
             else if (cmd.args[0] == "list")
             {

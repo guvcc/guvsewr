@@ -10,5 +10,3 @@ main=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pac
 config=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/config.json
 #Lists extra files with github raw link
 extrafiles=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/extra.txt
-#Lists NuGet Librarys with version!
-nugetlibs=Newtonsoft.Json@13.0.3

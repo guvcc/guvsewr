@@ -6,8 +6,6 @@ public class CompileScripts
 {
     public static Assembly Compile(string path, Package gpack)
     {
-        var code = File.ReadAllText(path);
-
         var trees = Directory.GetFiles(path, "*.cs", SearchOption.AllDirectories).Select(file => CSharpSyntaxTree.ParseText(File.ReadAllText(file)));
 
         var references = new List<MetadataReference>();
@@ -18,13 +16,10 @@ public class CompileScripts
                 .Select(a => MetadataReference.CreateFromFile(a.Location)));
 
         string nugetFolder = Path.Combine(path, ".nuget");
-
-        foreach (string dll in Directory.GetFiles(
-        nugetFolder,
-        "*.dll",
-        SearchOption.AllDirectories))
+        if (Directory.Exists(nugetFolder))
         {
-            references.Add(MetadataReference.CreateFromFile(dll));
+            foreach (var dll in Directory.GetFiles(nugetFolder, "*.dll", SearchOption.AllDirectories))
+                references.Add(MetadataReference.CreateFromFile(dll));
         }
 
         var compilation = CSharpCompilation.Create(
@@ -66,7 +61,7 @@ public class CompileScripts
 
         foreach (string dir in Directory.GetDirectories(path))
         {
-            var pack = Package.DeserealizeGPack(File.ReadAllText(Path.Combine(dir, "pack.gpack")));
+            var pack = Package.DeserealizeGPack(File.ReadAllText(Path.Combine(dir, "package.gpack")));
 
             CompileScripts.Compile(dir, pack);
         }

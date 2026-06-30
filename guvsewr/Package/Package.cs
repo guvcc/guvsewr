@@ -6,16 +6,14 @@ public class Package
     public string name, version, mainPath;
     public string? configPath;
     public string[] extraPaths;
-    public Dictionary<string, string> nugetLibs;
     public string csprojPath;
-    public Package(string name, string version, string? configPath, string mainPath, string mainTree, string[] extraPaths, Dictionary<string, string> nugetLibs, string csprojPath)
+    public Package(string name, string version, string? configPath, string mainPath, string mainTree, string[] extraPaths, string csprojPath)
     {
         this.name = name;
         this.version = version;
         this.configPath = configPath;
         this.mainPath = mainPath;
         this.extraPaths = extraPaths;
-        this.nugetLibs = nugetLibs;
         this.csprojPath = csprojPath;
     }
 
@@ -59,7 +57,7 @@ public class Package
 
             string mainCS = await client.GetStringAsync(pack.mainPath);
 
-            File.WriteAllText(Path.Combine(directory, pack.mainPath), mainCS);
+            File.WriteAllText(Path.Combine(directory, Path.GetFileName(new Uri(pack.mainPath).AbsolutePath)), mainCS);
 
             Console.WriteLine("Done!");
 
@@ -69,7 +67,7 @@ public class Package
 
                 string config = await client.GetStringAsync(pack.configPath);
 
-                File.WriteAllText(Path.Combine(directory, pack.configPath), config);
+                File.WriteAllText(Path.Combine(directory, Path.GetFileName(new Uri(pack.configPath).AbsolutePath)), config);
 
                 Console.WriteLine("Done!");
             }
@@ -80,14 +78,22 @@ public class Package
             {
                 string extra = await client.GetStringAsync(path);
 
-                File.WriteAllText(Path.Combine(directory, path), extra);
+                File.WriteAllText(Path.Combine(directory, Path.GetFileName(new Uri(path).AbsolutePath)), extra);
             }
+
+            Console.WriteLine("Done!");
+
+            Console.WriteLine("Downloading Csproj!");
+
+            string csproj = await client.GetStringAsync(pack.csprojPath);
+
+            File.WriteAllText(Path.Combine(directory, Path.GetFileName(new Uri(pack.csprojPath).AbsolutePath)), csproj);
 
             Console.WriteLine("Done!");
 
             Console.WriteLine("Downloading Packages!");
 
-            await DownloadPackages(directory, pack);
+            await DownloadPackages(directory);
 
             Console.WriteLine("Done!");
 
@@ -96,6 +102,8 @@ public class Package
             CompileScripts.Compile(directory, pack);
 
             Console.WriteLine("Done!");
+
+            Console.WriteLine("Installation Complete!");
         }
         catch (HttpRequestException ex)
         {
@@ -105,41 +113,12 @@ public class Package
         }
     }
 
-    public static async Task DownloadPackages(string directory, Package pack)
+    public static async Task DownloadPackages(string dir)
     {
-        StringBuilder sb = new StringBuilder();
-
-        sb.AppendLine("<Project Sdk=\"Microsoft.NET.Sdk\">");
-        sb.AppendLine();
-        sb.AppendLine("  <PropertyGroup>");
-        sb.AppendLine("    <TargetFramework>net10.0</TargetFramework>");
-        sb.AppendLine("    <ImplicitUsings>enable</ImplicitUsings>");
-        sb.AppendLine("    <Nullable>enable</Nullable>");
-        sb.AppendLine("  </PropertyGroup>");
-        sb.AppendLine();
-
-        if (pack.nugetLibs.Count > 0)
-        {
-            sb.AppendLine("  <ItemGroup>");
-
-            foreach (var lib in pack.nugetLibs)
-            {
-                sb.AppendLine($"    <PackageReference Include=\"{lib.Key}\" Version=\"{lib.Value}\" />");
-            }
-
-            sb.AppendLine("  </ItemGroup>");
-        }
-
-        sb.AppendLine("</Project>");
-
-        string projectPath = Path.Combine(directory, $"{pack.name}.csproj");
-
-        File.WriteAllText(projectPath, sb.ToString());
-
         Process process = new Process();
 
         process.StartInfo.FileName = "dotnet";
-        process.StartInfo.Arguments = $"restore \"{projectPath}\" --packages \"{Path.Combine(directory, ".nuget")}\"";
+        process.StartInfo.Arguments = $"restore \"{Directory.GetFiles(dir, "*.csproj", SearchOption.AllDirectories).First()}\" --packages \"{Path.Combine(dir, ".nuget")}\"";
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
@@ -161,7 +140,7 @@ public class Package
 
     public static Package DeserealizeGPack(string gpack)
     {
-        Package pack = new Package(null, null, null, null, null, null, null, null);
+        Package pack = new Package(null, null, null, null, null, null, null);
         using StringReader reader = new StringReader(gpack);
 
         string? line;
@@ -191,16 +170,6 @@ public class Package
             else if (line.StartsWith("csproj"))
             {
                 pack.csprojPath = line.Split("=")[1];
-            }
-            else if (line.StartsWith("nugetlibs"))
-            {
-                string[] libs = line.Split("=")[1].Split(',');
-
-                foreach (string lib in libs)
-                {
-                    string[] parts = lib.Split('@');
-                    pack.nugetLibs.Add(parts[0], parts[1]);
-                }
             }
         }
 

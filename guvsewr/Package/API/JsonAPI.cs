@@ -7,7 +7,11 @@ public class JsonAPI
 
     public JsonNode Read(string path)
     {
-        return JsonNode.Parse(File.ReadAllText(path))!;
+        string fullPath = Path.IsPathRooted(path)
+            ? path
+            : Path.Combine(package.basePath, path);
+
+        return JsonNode.Parse(File.ReadAllText(fullPath))!;
     }
 
     public void Write<T>(string path, T value)
