@@ -19,7 +19,7 @@ IN DEVELOPMENT!
 ## Authors
 
 - [@guvcc](https://github.com/guvcc)
-- - [@pente84](https://github.com/pente84)
+- [@pente84](https://github.com/pente84)
 
 
 ## Contributing
