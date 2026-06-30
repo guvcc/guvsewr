@@ -4,20 +4,32 @@ using System.Reflection;
 
 public class CompileScripts
 {
-    public static List<Assembly> asms = new List<Assembly>();
     public static Assembly Compile(string path)
     {
         var code = File.ReadAllText(path);
 
-        var tree = CSharpSyntaxTree.ParseText(code);
+        var trees = Directory.GetFiles(path, "*.cs", SearchOption.AllDirectories).Select(file => CSharpSyntaxTree.ParseText(File.ReadAllText(file)));
 
-        var references = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
-            .Select(a => MetadataReference.CreateFromFile(a.Location));
+        var references = new List<MetadataReference>();
+
+        references.AddRange(
+            AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
+                .Select(a => MetadataReference.CreateFromFile(a.Location)));
+
+        string nugetFolder = Path.Combine(path, ".nuget");
+
+        foreach (string dll in Directory.GetFiles(
+        nugetFolder,
+        "*.dll",
+        SearchOption.AllDirectories))
+        {
+            references.Add(MetadataReference.CreateFromFile(dll));
+        }
 
         var compilation = CSharpCompilation.Create(
             Path.GetRandomFileName(),
-            new[] { tree },
+            trees,
             references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
         );
@@ -38,22 +50,5 @@ public class CompileScripts
 
         ms.Seek(0, SeekOrigin.Begin);
         return Assembly.Load(ms.ToArray());
-    }
-
-    public void CompileScript(string path)
-    {
-        foreach (string directory in Directory.GetDirectories(path))
-        {
-            CompileScript(directory);
-        }
-
-        foreach (string cs in Directory.GetFiles(path))
-        {
-            if (cs.EndsWith(".cs"))
-            {
-                var asm = Compile(cs);
-                asms.Add(asm);
-            }
-        }
     }
 }

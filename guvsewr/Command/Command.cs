@@ -11,3 +11,12 @@ public class Command
         this.executer = executer;
     }
 }
+public static class CommandRegistry
+{
+    public static readonly Dictionary<string, Command> commands = new();
+
+    public static void Register(Command command)
+    {
+        commands[command.name] = command;
+    }
+}

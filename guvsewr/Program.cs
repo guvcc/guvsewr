@@ -8,16 +8,7 @@ class Program
     {
         Console.Title = Config.root.distro_settings.name;
 
-        var allAssemblies = new List<Assembly>
-        {
-            Assembly.GetExecutingAssembly()
-        };
-
-        allAssemblies.AddRange(CompileScripts.asms);
-
-        var commands = allAssemblies
-        .SelectMany(asm => asm.GetTypes())
-        .Where(t => t.IsSubclassOf(typeof(Command)) && !t.IsAbstract);
+        Commands.Register();
 
         foreach (string sentence in Config.root.introduction_sentences)
         {
@@ -36,17 +27,12 @@ class Program
                 continue;
             }
 
-            var command = commands.FirstOrDefault(t =>
-            {
-                var inst = (Command)Activator.CreateInstance(t)!;
-                return inst.name.Equals(input.Split(' ')[0], StringComparison.OrdinalIgnoreCase);
-            });
+            var cmd = input.Split(' ')[0];
 
-            if (command != null)
+            if (CommandRegistry.commands.TryGetValue(cmd, out Command command))
             {
-                var instance = Activator.CreateInstance(command) as Command;
-                instance.args = Regex.Matches(input, @"[\""].+?[\""]|\S+") .Select(m => m.Value.Trim('"')).Skip(1).ToArray();
-                instance?.executer.Invoke(instance);
+                command.args = Regex.Matches(input, @"[\""].+?[\""]|\S+").Select(m => m.Value.Trim('"')).Skip(1).ToArray();
+                command?.executer.Invoke(command);
             }
             else
             {

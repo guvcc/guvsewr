@@ -1,16 +1,20 @@
+using System.Text;
+using System.Diagnostics;
+
 public class Package
 {
     public string name, version, mainPath;
     public string? configPath;
     public string[] extraPaths;
-
-    public Package(string name, string version, string? configPath, string mainPath, string mainTree, string[] extraPaths)
+    public Dictionary<string, string> nugetLibs;
+    public Package(string name, string version, string? configPath, string mainPath, string mainTree, string[] extraPaths, Dictionary<string, string> nugetLibs)
     {
         this.name = name;
         this.version = version;
         this.configPath = configPath;
         this.mainPath = mainPath;
         this.extraPaths = extraPaths;
+        this.nugetLibs = nugetLibs;
     }
 
     public static async Task InstallFromGit(string url)
@@ -79,6 +83,12 @@ public class Package
             }
 
             Console.WriteLine("Done!");
+            
+            Console.WriteLine("Downloading Packages!");
+
+            await DownloadPackages(directory, pack);
+
+            Console.WriteLine("Done!");
 
             Console.WriteLine("Compiling Scripts...");
 
@@ -94,9 +104,63 @@ public class Package
         }
     }
 
+    public static async Task DownloadPackages(string directory, Package pack)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendLine("<Project Sdk=\"Microsoft.NET.Sdk\">");
+        sb.AppendLine();
+        sb.AppendLine("  <PropertyGroup>");
+        sb.AppendLine("    <TargetFramework>net10.0</TargetFramework>");
+        sb.AppendLine("    <ImplicitUsings>enable</ImplicitUsings>");
+        sb.AppendLine("    <Nullable>enable</Nullable>");
+        sb.AppendLine("  </PropertyGroup>");
+        sb.AppendLine();
+
+        if (pack.nugetLibs.Count > 0)
+        {
+            sb.AppendLine("  <ItemGroup>");
+
+            foreach (var lib in pack.nugetLibs)
+            {
+                sb.AppendLine($"    <PackageReference Include=\"{lib.Key}\" Version=\"{lib.Value}\" />");
+            }
+
+            sb.AppendLine("  </ItemGroup>");
+        }
+
+        sb.AppendLine("</Project>");
+
+        string projectPath = Path.Combine(directory, $"{pack.name}.csproj");
+
+        File.WriteAllText(projectPath, sb.ToString());
+
+        Process process = new Process();
+
+        process.StartInfo.FileName = "dotnet";
+        process.StartInfo.Arguments = $"restore \"{projectPath}\" --packages \"{Path.Combine(directory, ".nuget")}\"";
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.RedirectStandardOutput = true;
+        process.StartInfo.RedirectStandardError = true;
+
+        process.Start();
+
+        string output = await process.StandardOutput.ReadToEndAsync();
+        string error = await process.StandardError.ReadToEndAsync();
+
+        await process.WaitForExitAsync();
+
+        Console.WriteLine(output);
+
+        if (process.ExitCode != 0)
+        {
+            Console.WriteLine(error);
+        }
+    }
+
     public static Package DeserealizeGPack(string gpack)
     {
-        Package pack = new Package(null ,null, null, null, null, null);
+        Package pack = new Package(null ,null, null, null, null, null, null);
         using StringReader reader = new StringReader(gpack);
 
         string? line;
@@ -122,6 +186,16 @@ public class Package
             else if (line.StartsWith("extrafiles"))
             {
                 pack.extraPaths = line.Split("=")[1].Split(",").ToArray();
+            }
+            else if (line.StartsWith("nugetlibs"))
+            {
+                string[] libs = line.Split("=")[1].Split(',');
+
+                foreach (string lib in libs)
+                {
+                    string[] parts = lib.Split('@');
+                    pack.nugetLibs.Add(parts[0], parts[1]);
+                }
             }
         }
 

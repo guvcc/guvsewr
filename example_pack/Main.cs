@@ -1,11 +1,17 @@
 //Always give unique names to classes so there are no missmatches!
-using System.Text.Json;
-public class Example : Command
+using System.Reflection;
+
+public class Example : GuvsewrPackage
 {
-    public Example() : base("exp", (cmd) =>
+    public Example(Package manifest, string basePath, Assembly assembly) : base(manifest, basePath, assembly)
     {
-        JsonDocument doc = JsonDocument.Parse(File.ReadAllText("config.json"));
-        Console.WriteLine(doc.RootElement.GetProperty("Message").GetString());
-    })
-    { }
+    }
+
+    public override void Start()
+    {
+        command.Register(new Command("exp", (cmd) =>
+        {
+            log.WriteLine(json.Read("config.json")["message"].ToString());
+        }));
+    }
 }
