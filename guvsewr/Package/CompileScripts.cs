@@ -4,7 +4,7 @@ using System.Reflection;
 
 public class CompileScripts
 {
-    public static Assembly Compile(string path)
+    public static Assembly Compile(string path, Package gpack)
     {
         var code = File.ReadAllText(path);
 
@@ -49,6 +49,26 @@ public class CompileScripts
         }
 
         ms.Seek(0, SeekOrigin.Begin);
-        return Assembly.Load(ms.ToArray());
+        var asm = Assembly.Load(ms.ToArray());
+
+        var type = asm.GetTypes().FirstOrDefault(t => !t.IsAbstract && t.IsSubclassOf(typeof(GuvsewrPackage)));
+        var instance = (GuvsewrPackage)Activator.CreateInstance(type, gpack, path, asm);
+
+        GuvsewrPackage.Packages.Add(instance);
+
+        return asm;
+    }
+
+    public static void CompileAll(string path)
+    {
+        if (!Directory.Exists(path))
+            return;
+
+        foreach (string dir in Directory.GetDirectories(path))
+        {
+            var pack = Package.DeserealizeGPack(File.ReadAllText(Path.Combine(dir, "pack.gpack")));
+
+            CompileScripts.Compile(dir, pack);
+        }
     }
 }

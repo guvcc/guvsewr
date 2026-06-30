@@ -7,7 +7,8 @@ public class Package
     public string? configPath;
     public string[] extraPaths;
     public Dictionary<string, string> nugetLibs;
-    public Package(string name, string version, string? configPath, string mainPath, string mainTree, string[] extraPaths, Dictionary<string, string> nugetLibs)
+    public string csprojPath;
+    public Package(string name, string version, string? configPath, string mainPath, string mainTree, string[] extraPaths, Dictionary<string, string> nugetLibs, string csprojPath)
     {
         this.name = name;
         this.version = version;
@@ -15,6 +16,7 @@ public class Package
         this.mainPath = mainPath;
         this.extraPaths = extraPaths;
         this.nugetLibs = nugetLibs;
+        this.csprojPath = csprojPath;
     }
 
     public static async Task InstallFromGit(string url)
@@ -31,7 +33,7 @@ public class Package
             Console.WriteLine(Config.root.cli_settings.errors["host_not_found"]);
             Console.WriteLine(ex.ToString());
             return;
-        }       
+        }
 
         Package pack = DeserealizeGPack(gpack);
 
@@ -61,7 +63,6 @@ public class Package
 
             Console.WriteLine("Done!");
 
-
             if (!string.IsNullOrWhiteSpace(pack.configPath))
             {
                 Console.WriteLine("Installing config json...");
@@ -83,7 +84,7 @@ public class Package
             }
 
             Console.WriteLine("Done!");
-            
+
             Console.WriteLine("Downloading Packages!");
 
             await DownloadPackages(directory, pack);
@@ -92,7 +93,7 @@ public class Package
 
             Console.WriteLine("Compiling Scripts...");
 
-            CompileScripts.Compile(directory);
+            CompileScripts.Compile(directory, pack);
 
             Console.WriteLine("Done!");
         }
@@ -160,7 +161,7 @@ public class Package
 
     public static Package DeserealizeGPack(string gpack)
     {
-        Package pack = new Package(null ,null, null, null, null, null, null);
+        Package pack = new Package(null, null, null, null, null, null, null, null);
         using StringReader reader = new StringReader(gpack);
 
         string? line;
@@ -186,6 +187,10 @@ public class Package
             else if (line.StartsWith("extrafiles"))
             {
                 pack.extraPaths = line.Split("=")[1].Split(",").ToArray();
+            }
+            else if (line.StartsWith("csproj"))
+            {
+                pack.csprojPath = line.Split("=")[1];
             }
             else if (line.StartsWith("nugetlibs"))
             {

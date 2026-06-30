@@ -10,6 +10,8 @@ class Program
 
         Commands.Register();
 
+        CompileScripts.CompileAll("packages");
+
         foreach (string sentence in Config.root.introduction_sentences)
         {
             Console.WriteLine(sentence);
