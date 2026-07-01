@@ -7,8 +7,9 @@ public static class Commands
         {
             Console.Clear();
         }));
+
         CommandRegistry.Register(new Command("cnt", async (cmd) =>
-    {
+        {
         if (cmd.args.Length == 0)
         {
             Console.WriteLine(Config.root.cli_settings.errors["invalid_arguments"]);
@@ -42,7 +43,8 @@ public static class Commands
         await Connection.Connect(uri);
 
         Console.Write(Config.root.cli_settings.line_starter + " ");
-    }));
+        }));
+
         CommandRegistry.Register(new Command("htgt", async (cmd) =>
         {
             try
@@ -94,8 +96,9 @@ public static class Commands
                 Console.WriteLine(exception);
             }
         }));
+
         CommandRegistry.Register(new Command("pck", async (cmd) =>
-    {
+        {
         try
         {
             HttpClient client = new HttpClient();
@@ -112,22 +115,9 @@ public static class Commands
             }
             else if (cmd.args[0] == "list")
             {
-                string dir = Path.Combine(Directory.GetCurrentDirectory(), "packages");
-
-                if (!Directory.Exists(dir))
+                foreach (var pack in GuvsewrPackage.Packages)
                 {
-                    Console.WriteLine("None!");
-                    return;
-                }
-
-
-                foreach (string subdir in Directory.GetDirectories(dir))
-                {
-                    string packPath = Path.Combine(dir, "package.gpack");
-
-                    Package pack = Package.DeserealizeGPack(File.ReadAllText(packPath));
-
-                    Console.WriteLine($"{pack.name} / {pack.version}");
+                    Console.WriteLine($"{pack.manifest.name} / {pack.manifest.version}");
                 }
             }
             else
@@ -142,7 +132,7 @@ public static class Commands
         {
             Console.WriteLine(exception);
         }
-    }));
+        }));
 
         CommandRegistry.Register(new Command("ping", (cmd) =>
         {
