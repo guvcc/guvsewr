@@ -15,10 +15,10 @@ public class CompileScripts
                 .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
                 .Select(a => MetadataReference.CreateFromFile(a.Location)));
 
-        string nugetFolder = Path.Combine(path, ".nuget");
-        if (Directory.Exists(nugetFolder))
+        string dllFolder = Path.Combine(path, "dlls");
+        if (Directory.Exists(dllFolder))
         {
-            foreach (var dll in Directory.GetFiles(nugetFolder, "*.dll", SearchOption.AllDirectories))
+            foreach (var dll in Directory.GetFiles(dllFolder, "*.dll", SearchOption.AllDirectories))
                 references.Add(MetadataReference.CreateFromFile(dll));
         }
 

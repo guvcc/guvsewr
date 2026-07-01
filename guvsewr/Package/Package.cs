@@ -3,10 +3,9 @@ using System.Diagnostics;
 
 public class Package
 {
-    public string name, version, mainPath;
+    public string name, version, mainPath, csprojPath;
     public string? configPath;
-    public string[] extraPaths;
-    public string csprojPath;
+    public string[] extraPaths, dlls;
     public Package(string name, string version, string? configPath, string mainPath, string mainTree, string[] extraPaths, string csprojPath)
     {
         this.name = name;
@@ -93,7 +92,12 @@ public class Package
 
             Console.WriteLine("Downloading Packages!");
 
-            await DownloadPackages(directory);
+            foreach (string dllPath in pack.dlls)
+            {
+                string dll = await client.GetStringAsync(dllPath);
+
+                File.WriteAllText(Path.Combine(Path.Combine(directory, "dlls"), Path.GetFileName(new Uri(dllPath).AbsolutePath)), dll);
+            }
 
             Console.WriteLine("Done!");
 
@@ -110,31 +114,6 @@ public class Package
             Console.WriteLine(Config.root.cli_settings.errors["host_not_found"]);
             Console.WriteLine(ex.ToString());
             return;
-        }
-    }
-
-    public static async Task DownloadPackages(string dir)
-    {
-        Process process = new Process();
-
-        process.StartInfo.FileName = "dotnet";
-        process.StartInfo.Arguments = $"restore \"{Directory.GetFiles(dir, "*.csproj", SearchOption.AllDirectories).First()}\" --packages \"{Path.Combine(dir, ".nuget")}\"";
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardError = true;
-
-        process.Start();
-
-        string output = await process.StandardOutput.ReadToEndAsync();
-        string error = await process.StandardError.ReadToEndAsync();
-
-        await process.WaitForExitAsync();
-
-        Console.WriteLine(output);
-
-        if (process.ExitCode != 0)
-        {
-            Console.WriteLine(error);
         }
     }
 
@@ -171,6 +150,10 @@ public class Package
             else if (line.StartsWith("extrafiles"))
             {
                 pack.extraPaths = line.Split("=")[1].Split(",").ToArray();
+            }
+            else if (line.StartsWith("dlls"))
+            {
+                pack.dlls = line.Split("=")[1].Split(",").ToArray();
             }
             else if (line.StartsWith("csproj"))
             {

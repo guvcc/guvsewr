@@ -1,7 +1,0 @@
-#Name spaces allowed!
-name=Costume GI
-#Version!
-version=b-0.1
-csproj=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/Costume%20GI.csproj
-main=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/Main.cs
-extrafiles=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/App.axaml,https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/AvaloniaRunner.cs,https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/BrowserMain.axaml,https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/BrowserMain.axaml.cs,https://raw.githubusercontent.com/guvcc/guvsewr/main/Costume%20GI/COSTUME.png,https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/Program.cs,https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/Costume%20GI/app.manifest
