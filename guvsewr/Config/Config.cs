@@ -2,6 +2,13 @@ using System.Text.Json;
 public class Config
 {
     public static Root root = ConfDeserializer.DeserializeJson(File.ReadAllText("conf/config.json"));
+
+    public static string? GetVariable(string id)
+    {
+        return Config.root.app_variables
+            .FirstOrDefault(v => v.id == id)
+            ?.value;
+    }
 }
 public class ConfDeserializer
 {

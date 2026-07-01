@@ -2,5 +2,6 @@ guvsewr/bin/
 guvsewr/obj/
 example_pack/bin/
 example_pack/obj/
+.vs/
 
 .fake

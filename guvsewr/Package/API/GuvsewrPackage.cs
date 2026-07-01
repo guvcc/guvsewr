@@ -11,6 +11,7 @@ public class GuvsewrPackage
     public CommandAPI command { get; set; }
     public FileAPI file { get; set; }
     public JsonAPI json { get; set; }
+    public GIAPI gi { get; set; }
 
     public virtual void Start() { }
 
@@ -24,11 +25,13 @@ public class GuvsewrPackage
         command = new CommandAPI();
         file = new FileAPI();
         json = new JsonAPI();
+        gi = new GIAPI();
 
         log.package = this;
         command.package = this;
         file.package = this;
         json.package = this;
+        gi.package = this;
 
         Start();
     }

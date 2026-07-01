@@ -6,7 +6,7 @@
     "description": "Customizable barebones browser repository"
   },
 
-  "introduction_sentences": ["Welcome to Guvsewr!", "@ascii_art"],
+  "introduction_sentences": ["@ascii_art"],
 
   "cli_settings": {
     "line_starter": ">",

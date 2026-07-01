@@ -147,6 +147,11 @@ public class Package
 
         while ((line = reader.ReadLine()) != null)
         {
+            if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+
             if (line.StartsWith("name"))
             {
                 pack.name = line.Split("=")[1];
