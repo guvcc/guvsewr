@@ -28,5 +28,7 @@ Contributions are always welcome!
 
 You can create packages for the project and contribute to the main project!
 
-Please adhere to this project's `code of conduct`.
+Please adhere to this project's [Code-of-Conduct](CODE_OF_CONDUCT.md).
+## Subprojects
 
+- [Costume GI](Costume%20GI/README.md)
