@@ -92,12 +92,18 @@ public class Package
 
             Console.WriteLine("Downloading Packages!");
 
-            foreach (string dllPath in pack.dlls)
-            {
-                string dll = await client.GetStringAsync(dllPath);
+            Directory.CreateDirectory(Path.Combine(directory, "dlls"));
 
-                File.WriteAllText(Path.Combine(Path.Combine(directory, "dlls"), Path.GetFileName(new Uri(dllPath).AbsolutePath)), dll);
+            if (pack.dlls != null)
+            {
+                foreach (string dllPath in pack.dlls)
+                {
+                    string dll = await client.GetStringAsync(dllPath);
+
+                    File.WriteAllText(Path.Combine(Path.Combine(directory, "dlls"), Path.GetFileName(new Uri(dllPath).AbsolutePath)), dll);
+                }
             }
+
 
             Console.WriteLine("Done!");
 

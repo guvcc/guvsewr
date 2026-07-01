@@ -10,3 +10,5 @@ main=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pac
 config=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/config.json
 #Lists extra files with github raw link
 extrafiles=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/extra.txt
+#Dlls including dlls in build folder [this dll does not exist]!
+#dlls=https://raw.githubusercontent.com/guvcc/guvsewr/refs/heads/main/example_pack/idk.dll
