@@ -90,3 +90,14 @@ C:\Users\User\Documents\CostumeGI\guvsewr\Costume GI\obj\Debug\net10.0\refint\Co
 C:\Users\User\Documents\CostumeGI\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.pdb
 C:\Users\User\Documents\CostumeGI\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.genruntimeconfig.cache
 C:\Users\User\Documents\CostumeGI\guvsewr\Costume GI\obj\Debug\net10.0\ref\Costume GI.dll
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.csproj.AssemblyReference.cache
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Avalonia\Resources.Inputs.cache
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Avalonia\resources
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.AssemblyInfoInputs.cache
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.AssemblyInfo.cs
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.sourcelink.json
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.dll
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\refint\Costume GI.dll
+C:\Users\User\Documents\guvsewr\Costume GI\obj\Debug\net10.0\Costume GI.pdb

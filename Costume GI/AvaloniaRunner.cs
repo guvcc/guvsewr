@@ -25,4 +25,4 @@ namespace Costume_GI
             _thread.Start();
         }
     }
-}}
+}
