@@ -98,9 +98,9 @@ public class Package
             {
                 foreach (string dllPath in pack.dlls)
                 {
-                    string dll = await client.GetStringAsync(dllPath);
+                    byte[] dll = await client.GetByteArrayAsync(dllPath);
 
-                    File.WriteAllText(Path.Combine(Path.Combine(directory, "dlls"), Path.GetFileName(new Uri(dllPath).AbsolutePath)), dll);
+                    File.WriteAllBytes(Path.Combine(Path.Combine(directory, "dlls"), Path.GetFileName(new Uri(dllPath).AbsolutePath)), dll);
                 }
             }
 

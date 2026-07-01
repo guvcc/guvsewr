@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Costume GI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+524d18f5e69cb442596f5179f4d4fbd148cfd9f8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e8cb8a9a4730cbdc8a52235e7ca6f11d83e0424")]
 [assembly: System.Reflection.AssemblyProductAttribute("Costume GI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Costume GI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
